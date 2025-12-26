@@ -1,6 +1,6 @@
 """
 Integración con servicios de scraping profesionales
-Soporta: ScraperAPI, Bright Data, Apify
+Soporta: ScraperAPI, ScrapingBee, Bright Data, Apify
 """
 
 import os
@@ -63,6 +63,58 @@ class ScraperAPIClient:
             return response
         except requests.RequestException as e:
             console.print(f"[red]Error en ScraperAPI: {e}[/red]")
+            raise
+
+
+class ScrapingBeeClient:
+    """Cliente para ScrapingBee"""
+
+    def __init__(self, api_key: Optional[str] = None):
+        """
+        Inicializa el cliente de ScrapingBee
+
+        Args:
+            api_key: API key de ScrapingBee (o usa variable de entorno SCRAPINGBEE_KEY)
+        """
+        self.api_key = api_key or os.getenv('SCRAPINGBEE_KEY')
+        if not self.api_key:
+            raise ValueError(
+                "API key requerida. Configura SCRAPINGBEE_KEY en .env o pásala como parámetro"
+            )
+
+        self.base_url = "https://app.scrapingbee.com/api/v1/"
+
+    def get(self, url: str, params: Optional[Dict] = None) -> requests.Response:
+        """
+        Hace request a través de ScrapingBee
+
+        Args:
+            url: URL a scrapear
+            params: Parámetros adicionales
+
+        Returns:
+            Response object
+        """
+        payload = {
+            'api_key': self.api_key,
+            'url': url,
+            'render_js': 'false',  # Cambia a 'true' si necesitas JavaScript
+            'premium_proxy': 'false',  # Cambia a 'true' para proxies premium
+            'country_code': 'ar'  # Argentina
+        }
+
+        if params:
+            payload.update(params)
+
+        console.print(f"[cyan]ScrapingBee: Obteniendo {url}[/cyan]")
+
+        try:
+            response = requests.get(self.base_url, params=payload, timeout=60)
+            response.raise_for_status()
+            console.print(f"[green]✓ Respuesta obtenida: {response.status_code}[/green]")
+            return response
+        except requests.RequestException as e:
+            console.print(f"[red]Error en ScrapingBee: {e}[/red]")
             raise
 
 
@@ -225,7 +277,7 @@ def get_scraper_client(service: str = 'scraperapi'):
     Factory function para obtener el cliente correcto
 
     Args:
-        service: Servicio a usar ('scraperapi', 'brightdata', 'apify')
+        service: Servicio a usar ('scraperapi', 'scrapingbee', 'brightdata', 'apify')
 
     Returns:
         Cliente del servicio seleccionado
@@ -234,6 +286,8 @@ def get_scraper_client(service: str = 'scraperapi'):
 
     if service == 'scraperapi':
         return ScraperAPIClient()
+    elif service == 'scrapingbee':
+        return ScrapingBeeClient()
     elif service == 'brightdata':
         return BrightDataClient()
     elif service == 'apify':
@@ -251,6 +305,8 @@ if __name__ == "__main__":
 
     if os.getenv('SCRAPERAPI_KEY'):
         services_available.append('ScraperAPI')
+    if os.getenv('SCRAPINGBEE_KEY'):
+        services_available.append('ScrapingBee')
     if os.getenv('BRIGHTDATA_USERNAME') and os.getenv('BRIGHTDATA_PASSWORD'):
         services_available.append('Bright Data')
     if os.getenv('APIFY_TOKEN'):
@@ -262,5 +318,6 @@ if __name__ == "__main__":
         console.print("[yellow]No hay servicios configurados en .env[/yellow]")
         console.print("\nConfigura al menos uno:")
         console.print("1. ScraperAPI: SCRAPERAPI_KEY=tu_api_key")
-        console.print("2. Bright Data: BRIGHTDATA_USERNAME=tu_usuario y BRIGHTDATA_PASSWORD=tu_password")
-        console.print("3. Apify: APIFY_TOKEN=tu_token")
+        console.print("2. ScrapingBee: SCRAPINGBEE_KEY=tu_api_key")
+        console.print("3. Bright Data: BRIGHTDATA_USERNAME=tu_usuario y BRIGHTDATA_PASSWORD=tu_password")
+        console.print("4. Apify: APIFY_TOKEN=tu_token")

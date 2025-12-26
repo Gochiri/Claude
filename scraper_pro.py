@@ -1,6 +1,6 @@
 """
 Scraper mejorado con soporte para servicios profesionales
-Soporta: ScraperAPI, Bright Data, Apify, y modo directo
+Soporta: ScraperAPI, ScrapingBee, Bright Data, Apify, y modo directo
 """
 
 import requests
@@ -24,7 +24,7 @@ class ZonapropScraperPro:
         location: str = None,
         property_type: str = None,
         operation: str = None,
-        service: str = 'direct',  # 'direct', 'scraperapi', 'brightdata', 'apify'
+        service: str = 'direct',  # 'direct', 'scraperapi', 'scrapingbee', 'brightdata', 'apify'
         api_key: str = None
     ):
         """
@@ -34,7 +34,7 @@ class ZonapropScraperPro:
             location: Ubicación de búsqueda
             property_type: Tipo de propiedad
             operation: Tipo de operación
-            service: Servicio a usar (direct, scraperapi, brightdata, apify)
+            service: Servicio a usar (direct, scraperapi, scrapingbee, brightdata, apify)
             api_key: API key del servicio (opcional si está en .env)
         """
         self.location = location or config.DEFAULT_LOCATION
@@ -57,6 +57,10 @@ class ZonapropScraperPro:
         elif self.service == 'scraperapi':
             from scraping_services import ScraperAPIClient
             return ScraperAPIClient(self.api_key)
+
+        elif self.service == 'scrapingbee':
+            from scraping_services import ScrapingBeeClient
+            return ScrapingBeeClient(self.api_key)
 
         elif self.service == 'brightdata':
             from scraping_services import BrightDataClient
