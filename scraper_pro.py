@@ -102,7 +102,7 @@ class ZonapropScraperPro:
                 response.raise_for_status()
                 return response.content
 
-            elif self.service in ['scraperapi', 'brightdata']:
+            elif self.service in ['scraperapi', 'scrapingbee', 'brightdata']:
                 response = self.client.get(url)
                 response.raise_for_status()
                 return response.content

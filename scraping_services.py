@@ -98,8 +98,8 @@ class ScrapingBeeClient:
         payload = {
             'api_key': self.api_key,
             'url': url,
-            'render_js': 'false',  # Cambia a 'true' si necesitas JavaScript
-            'premium_proxy': 'false',  # Cambia a 'true' para proxies premium
+            'render_js': 'true',  # JavaScript rendering activado para Zonaprop
+            'premium_proxy': 'false',
             'country_code': 'ar'  # Argentina
         }
 
