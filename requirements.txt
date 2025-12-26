@@ -5,3 +5,8 @@ lxml>=4.9.0
 python-dotenv>=1.0.0
 rich>=13.0.0
 openpyxl>=3.1.0
+
+# Servicios de scraping profesionales (opcionales)
+# Instala solo el que vayas a usar:
+# scraperapi-sdk>=1.0.0  # Para ScraperAPI
+# apify-client>=1.0.0    # Para Apify
