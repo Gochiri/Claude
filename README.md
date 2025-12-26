@@ -1,16 +1,55 @@
 # 🏠 Zonaprop Scraper & Analyzer
 
-Web scraper y analizador de propiedades para **Zonaprop**, la plataforma líder de bienes raíces en Argentina. Este proyecto permite extraer datos de propiedades, analizarlos y generar reportes útiles para tomar decisiones informadas.
+Web scraper y analizador de propiedades para **Zonaprop**, la plataforma líder de bienes raíces en Argentina. Este proyecto permite extraer datos de propiedades, analizarlos y generar reportes con branding personalizado para clientes.
+
+---
+
+## ⚡ Inicio Rápido
+
+### **Para usuarios de Windows** (Recomendado):
+
+```cmd
+REM 1. Verificar que todo está instalado correctamente
+python setup_verificador.py
+
+REM 2. Usar menú interactivo (más fácil)
+inicio_rapido.bat
+```
+
+### **Documentación rápida**:
+
+- 📘 **[INICIO_RAPIDO_WINDOWS.md](INICIO_RAPIDO_WINDOWS.md)** - Guía paso a paso para Windows (solución al error 403)
+- ⚡ **[COMANDOS_RAPIDOS.md](COMANDOS_RAPIDOS.md)** - Referencia rápida de todos los comandos
+- 🌐 **[SERVICIOS_SCRAPING.md](SERVICIOS_SCRAPING.md)** - Comparación de servicios profesionales
+- 👥 **[GUIA_CLIENTE.md](GUIA_CLIENTE.md)** - Guía para integrar con clientes
+
+---
 
 ## ✨ Características
 
-- 🔍 **Scraping inteligente** de listados de propiedades
+### **Scraping Profesional**
+- 🔍 **Scraping inteligente** con soporte para ScraperAPI, Apify y Bright Data
+- 🌐 **Solución al error 403** usando servicios profesionales
+- 💻 **Modo offline** con parser de HTML y generador de datos mock
+- 🛡️ **Bypass de proxies** y restricciones de red
+
+### **Análisis Avanzado**
 - 📊 **Análisis estadístico** detallado de precios, superficies y características
 - 💰 **Cálculo de precio por m²** para comparar propiedades
 - 📈 **Ranking de mejores propiedades** según diferentes criterios
-- 💾 **Exportación múltiple**: JSON, CSV, Excel
+- 🔍 **Filtros avanzados**: precio, superficie, habitaciones, barrios, keywords
+
+### **Generación de Reportes**
+- 🎨 **HTML con branding personalizado** (logo, colores, datos de contacto)
+- 🤖 **Asistente IA** para búsqueda y generación automática
+- 📱 **Diseño responsive** para móviles y desktop
+- 💼 **Listo para enviar a clientes** con tu marca
+
+### **Exportación y Configuración**
+- 💾 **Exportación múltiple**: JSON, CSV, Excel, HTML
 - 🎨 **Interfaz en consola** con Rich para mejor visualización
 - ⚙️ **Configurable** mediante argumentos de línea de comandos
+- 🪟 **Menú interactivo para Windows** (inicio_rapido.bat)
 
 ## 🚀 Instalación
 
@@ -95,11 +134,66 @@ python main.py -p 5 --no-analysis
 | `--no-analysis` | Solo scrapear sin analizar | - |
 | `--top` | Número de mejores propiedades a mostrar | 10 |
 
-## 🌐 Restricciones de Red / Modo Offline
+## 🤖 Asistente IA con Branding Personalizado
 
-Si tienes problemas de conexión, proxies que bloquean, o quieres trabajar offline, hay **3 soluciones**:
+El sistema incluye un asistente IA que permite generar reportes HTML personalizados para clientes:
 
-### ✅ Opción 1: Generador de Datos Mock (Testing)
+```cmd
+python ai_assistant_interface.py ^
+    --min-price 200000 ^
+    --max-price 350000 ^
+    --min-rooms 2 ^
+    --neighborhoods Palermo Belgrano ^
+    --business-name "Tu Inmobiliaria" ^
+    --business-phone "+54 11 1234-5678" ^
+    --business-email "contacto@inmobiliaria.com" ^
+    --business-logo "logo.png" ^
+    --service scraperapi
+```
+
+**Características del reporte HTML:**
+- ✅ Logo de tu empresa embebido
+- ✅ Datos de contacto personalizados
+- ✅ Colores corporativos configurables
+- ✅ Top 5 propiedades según criterios específicos
+- ✅ Cálculo automático de precio/m²
+- ✅ Diseño responsive (móvil + desktop)
+- ✅ Archivo HTML auto-contenido (fácil de enviar por email)
+
+Ver **[GUIA_CLIENTE.md](GUIA_CLIENTE.md)** para más detalles.
+
+---
+
+## 🌐 Solución al Error 403 / Restricciones de Red
+
+Si obtienes **Error 403 Forbidden** o tienes proxies que bloquean, hay **4 soluciones**:
+
+### ✅ Opción 1: Servicios Profesionales (RECOMENDADO)
+
+Usar ScraperAPI, Apify o Bright Data para bypass automático de restricciones:
+
+```cmd
+REM 1. Registrarse en un servicio (ej: ScraperAPI - 5K requests gratis/mes)
+REM    https://www.scraperapi.com/signup
+
+REM 2. Configurar .env con tu API key
+echo SCRAPERAPI_KEY=tu_api_key_aqui > .env
+
+REM 3. Usar el scraper profesional
+python scraper_pro.py -l palermo -t departamentos -o venta -p 3 --service scraperapi
+```
+
+**Ventajas**: Funciona siempre, bypass automático, tier gratis disponible.
+
+Ver **[INICIO_RAPIDO_WINDOWS.md](INICIO_RAPIDO_WINDOWS.md)** para guía paso a paso.
+
+---
+
+## 🌐 Alternativas Offline
+
+Si prefieres no usar servicios profesionales, hay **3 soluciones offline**:
+
+### ✅ Opción 2: Generador de Datos Mock (Testing)
 
 Perfecto para desarrollo, testing o demos:
 
@@ -113,7 +207,7 @@ python main.py --analyze-only --json propiedades_mock.json --excel
 
 **Ventajas**: Datos instantáneos, reproducibles, ideales para testing.
 
-### ✅ Opción 2: Parser de HTML Local (Datos reales offline)
+### ✅ Opción 3: Parser de HTML Local (Datos reales offline)
 
 Descarga páginas manualmente y analízalas localmente:
 
@@ -135,7 +229,7 @@ python main.py --analyze-only
 
 **Ventajas**: Datos 100% reales, funciona sin conexión, sin restricciones de proxy.
 
-### ✅ Opción 3: Scraper Normal (Requiere conexión)
+### ✅ Opción 4: Scraper Directo (Solo sin restricciones)
 
 El scraper tradicional para ambientes sin restricciones:
 
@@ -149,21 +243,45 @@ python main.py -l capital-federal -t departamentos -o venta -p 3
 
 ```
 Claude/
-├── main.py                   # Script principal
-├── scraper.py                # Módulo de scraping (online)
-├── html_parser.py            # Parser de HTML local (offline)
-├── mock_data_generator.py    # Generador de datos mock (testing)
-├── analyzer.py               # Módulo de análisis
-├── demo.py                   # Script de demostración
-├── config.py                 # Configuración
-├── requirements.txt          # Dependencias
-├── README.md                 # Este archivo
-├── html_files/               # Archivos HTML descargados (crear manualmente)
-└── resultados/               # Carpeta de resultados (auto-generada)
-    ├── propiedades.json
-    ├── propiedades_mock.json
-    ├── analisis_propiedades.csv
-    └── analisis_propiedades.xlsx
+├── 🔧 Scripts principales
+│   ├── main.py                       # Script principal (básico)
+│   ├── scraper_pro.py                # Scraper profesional con servicios
+│   ├── ai_assistant_interface.py    # Asistente IA para clientes
+│   └── setup_verificador.py         # Verificador de configuración
+│
+├── 🛠️ Módulos core
+│   ├── scraper.py                    # Scraper básico
+│   ├── scraping_services.py          # Integración ScraperAPI/Apify/BrightData
+│   ├── analyzer.py                   # Análisis estadístico
+│   ├── property_filter.py            # Filtros avanzados
+│   └── html_generator.py             # Generador de HTML con branding
+│
+├── 💻 Utilidades
+│   ├── html_parser.py                # Parser de HTML offline
+│   ├── mock_data_generator.py        # Generador de datos de prueba
+│   ├── demo.py                       # Script de demostración
+│   └── inicio_rapido.bat             # Menú interactivo Windows
+│
+├── 📚 Documentación
+│   ├── README.md                     # Este archivo
+│   ├── INICIO_RAPIDO_WINDOWS.md      # Guía Windows (solución 403)
+│   ├── COMANDOS_RAPIDOS.md           # Referencia rápida
+│   ├── SERVICIOS_SCRAPING.md         # Comparación de servicios
+│   └── GUIA_CLIENTE.md               # Guía para clientes
+│
+├── ⚙️ Configuración
+│   ├── config.py                     # Configuración general
+│   ├── .env.example                  # Plantilla de variables de entorno
+│   ├── requirements.txt              # Dependencias
+│   └── .gitignore                    # Archivos ignorados
+│
+└── 📂 Carpetas de datos
+    ├── html_files/                   # HTMLs descargados manualmente
+    └── resultados/                   # Resultados generados
+        ├── propiedades.json
+        ├── propiedades_presentacion.html
+        ├── analisis_propiedades.csv
+        └── analisis_propiedades.xlsx
 ```
 
 ## 📊 Análisis de datos
@@ -211,17 +329,37 @@ Puedes modificar `config.py` para ajustar:
 
 ## 🐛 Solución de problemas
 
-### Error de proxy o conexión bloqueada
+### Verificar configuración del sistema
+
+```cmd
+REM Verificar que todo esté correctamente instalado y configurado
+python setup_verificador.py
+```
+
+Este script verifica automáticamente:
+- ✅ Versión de Python
+- ✅ Dependencias instaladas
+- ✅ Archivos del proyecto
+- ✅ Configuración de .env
+- ✅ Servicios de scraping disponibles
+- ✅ Prueba de conexión
+
+### Error 403 Forbidden / Proxy bloqueado
 
 ```
-ProxyError: Unable to connect to proxy
-HTTPSConnectionPool: Max retries exceeded
+403 Client Error: Forbidden for url: https://www.zonaprop.com.ar/...
 ```
 
-**Soluciones**:
-1. Usa el **generador de datos mock**: `python mock_data_generator.py -n 50`
-2. Usa el **parser de HTML local**: descarga páginas manualmente y ejecuta `python html_parser.py`
-3. Si tienes acceso a VPN, conéctate y usa el scraper normal
+**Solución recomendada**:
+1. Usar **servicios profesionales** (ScraperAPI, Apify, Bright Data)
+2. Ver **[INICIO_RAPIDO_WINDOWS.md](INICIO_RAPIDO_WINDOWS.md)** para guía paso a paso
+3. Registrarse en ScraperAPI (5K requests gratis): https://www.scraperapi.com/signup
+4. Configurar `.env` con tu API key
+5. Usar `--service scraperapi` en tus comandos
+
+**Alternativas**:
+- Usa el **generador de datos mock**: `python mock_data_generator.py -n 50`
+- Usa el **parser de HTML local**: descarga páginas manualmente y ejecuta `python html_parser.py`
 
 ### No se encuentran propiedades
 
