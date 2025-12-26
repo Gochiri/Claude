@@ -256,7 +256,7 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--type', default='departamentos')
     parser.add_argument('-o', '--operation', default='venta')
     parser.add_argument('-p', '--pages', type=int, default=3)
-    parser.add_argument('--service', choices=['direct', 'scraperapi', 'brightdata', 'apify'],
+    parser.add_argument('--service', choices=['direct', 'scraperapi', 'scrapingbee', 'brightdata', 'apify'],
                        default='direct', help='Servicio de scraping a usar')
     parser.add_argument('--api-key', help='API key del servicio (opcional si está en .env)')
 
