@@ -95,18 +95,73 @@ python main.py -p 5 --no-analysis
 | `--no-analysis` | Solo scrapear sin analizar | - |
 | `--top` | Número de mejores propiedades a mostrar | 10 |
 
+## 🌐 Restricciones de Red / Modo Offline
+
+Si tienes problemas de conexión, proxies que bloquean, o quieres trabajar offline, hay **3 soluciones**:
+
+### ✅ Opción 1: Generador de Datos Mock (Testing)
+
+Perfecto para desarrollo, testing o demos:
+
+```bash
+# Generar 50 propiedades de ejemplo
+python mock_data_generator.py -n 50
+
+# Analizar los datos generados
+python main.py --analyze-only --json propiedades_mock.json --excel
+```
+
+**Ventajas**: Datos instantáneos, reproducibles, ideales para testing.
+
+### ✅ Opción 2: Parser de HTML Local (Datos reales offline)
+
+Descarga páginas manualmente y analízalas localmente:
+
+```bash
+# 1. Crear directorio para HTMLs
+mkdir html_files
+
+# 2. Desde tu navegador:
+#    - Abre Zonaprop y haz tu búsqueda
+#    - Guarda cada página (Ctrl+S / Cmd+S)
+#    - Coloca los archivos en html_files/
+
+# 3. Parsear los archivos HTML
+python html_parser.py -d html_files
+
+# 4. Analizar los datos extraídos
+python main.py --analyze-only
+```
+
+**Ventajas**: Datos 100% reales, funciona sin conexión, sin restricciones de proxy.
+
+### ✅ Opción 3: Scraper Normal (Requiere conexión)
+
+El scraper tradicional para ambientes sin restricciones:
+
+```bash
+python main.py -l capital-federal -t departamentos -o venta -p 3
+```
+
+**Nota**: Puede fallar en entornos con proxies restrictivos o sin acceso a internet.
+
 ## 📁 Estructura del proyecto
 
 ```
 Claude/
-├── main.py              # Script principal
-├── scraper.py           # Módulo de scraping
-├── analyzer.py          # Módulo de análisis
-├── config.py            # Configuración
-├── requirements.txt     # Dependencias
-├── README.md           # Este archivo
-└── resultados/         # Carpeta de resultados (se crea automáticamente)
+├── main.py                   # Script principal
+├── scraper.py                # Módulo de scraping (online)
+├── html_parser.py            # Parser de HTML local (offline)
+├── mock_data_generator.py    # Generador de datos mock (testing)
+├── analyzer.py               # Módulo de análisis
+├── demo.py                   # Script de demostración
+├── config.py                 # Configuración
+├── requirements.txt          # Dependencias
+├── README.md                 # Este archivo
+├── html_files/               # Archivos HTML descargados (crear manualmente)
+└── resultados/               # Carpeta de resultados (auto-generada)
     ├── propiedades.json
+    ├── propiedades_mock.json
     ├── analisis_propiedades.csv
     └── analisis_propiedades.xlsx
 ```
@@ -156,22 +211,37 @@ Puedes modificar `config.py` para ajustar:
 
 ## 🐛 Solución de problemas
 
+### Error de proxy o conexión bloqueada
+
+```
+ProxyError: Unable to connect to proxy
+HTTPSConnectionPool: Max retries exceeded
+```
+
+**Soluciones**:
+1. Usa el **generador de datos mock**: `python mock_data_generator.py -n 50`
+2. Usa el **parser de HTML local**: descarga páginas manualmente y ejecuta `python html_parser.py`
+3. Si tienes acceso a VPN, conéctate y usa el scraper normal
+
 ### No se encuentran propiedades
 
 - Verifica que la URL de búsqueda sea correcta
 - Comprueba que el sitio esté accesible
 - Los selectores CSS podrían haber cambiado (actualiza `scraper.py`)
+- **Alternativa**: Usa el modo offline con `html_parser.py`
 
 ### Error de timeout
 
 - Aumenta el timeout en `scraper.py`
 - Verifica tu conexión a internet
 - El sitio podría estar temporalmente inaccesible
+- **Alternativa**: Genera datos mock con `mock_data_generator.py`
 
 ### Datos incompletos
 
 - Algunos listados pueden no tener toda la información
 - El scraper intenta manejar datos faltantes con 'N/A'
+- Para datos más completos, revisa y ajusta los selectores CSS en `scraper.py`
 
 ## 📝 Licencia
 
