@@ -45,3 +45,32 @@ resultados/
 # OS
 .DS_Store
 Thumbs.db
+
+# ============================================
+# GHL UI Skin Project
+# ============================================
+
+# Backend (FastAPI)
+ghl-ui-skin-backend/venv/
+ghl-ui-skin-backend/__pycache__/
+ghl-ui-skin-backend/.env
+ghl-ui-skin-backend/alembic/versions/*.py
+!ghl-ui-skin-backend/alembic/versions/__init__.py
+ghl-ui-skin-backend/.pytest_cache/
+ghl-ui-skin-backend/htmlcov/
+
+# Frontend (React)
+ghl-ui-skin-frontend/node_modules/
+ghl-ui-skin-frontend/dist/
+ghl-ui-skin-frontend/.env
+ghl-ui-skin-frontend/.vite/
+ghl-ui-skin-frontend/.cache/
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
