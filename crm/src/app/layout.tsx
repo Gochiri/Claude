@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Sidebar from '@/components/Sidebar'
+import AppShell from '@/components/AppShell'
 
 export const metadata: Metadata = {
   title: 'RealCRM - CRM Inmobiliario',
@@ -14,11 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      </head>
       <body className="font-sans">
-        <Sidebar />
-        <main className="ml-[260px] min-h-screen">
-          {children}
-        </main>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   )

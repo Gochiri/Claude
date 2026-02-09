@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { mockConversations } from '@/data/mock'
 import { Conversation, Message } from '@/types'
-import { SearchIcon, SendIcon, WhatsAppIcon, InstagramIcon, MailIcon, PhoneIcon } from '@/components/icons'
+import { SearchIcon, SendIcon, WhatsAppIcon, InstagramIcon, MailIcon, PhoneIcon, XIcon } from '@/components/icons'
 
 function getChannelIcon(channel: string, size = 14) {
   switch (channel) {
@@ -38,7 +38,7 @@ function timeAgo(dateStr: string): string {
 }
 
 export default function ConversationsPage() {
-  const [selectedConvo, setSelectedConvo] = useState<Conversation>(mockConversations[0])
+  const [selectedConvo, setSelectedConvo] = useState<Conversation | null>(null)
   const [search, setSearch] = useState('')
   const [message, setMessage] = useState('')
   const [channelFilter, setChannelFilter] = useState<string>('all')
@@ -50,9 +50,9 @@ export default function ConversationsPage() {
   })
 
   return (
-    <div className="flex h-screen">
-      {/* Conversation List */}
-      <div className="w-80 border-r border-gray-200 flex flex-col bg-white">
+    <div className="flex h-[calc(100vh-3.5rem)] lg:h-screen">
+      {/* Conversation List - full width on mobile, fixed width on desktop */}
+      <div className={`${selectedConvo ? 'hidden md:flex' : 'flex'} w-full md:w-80 border-r border-gray-200 flex-col bg-white`}>
         <div className="p-4 border-b border-gray-200">
           <h1 className="text-lg font-bold text-gray-900 mb-3">Conversaciones</h1>
           <div className="relative mb-2">
@@ -65,12 +65,12 @@ export default function ConversationsPage() {
               className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div className="flex gap-1">
+          <div className="flex gap-1 overflow-x-auto">
             {['all', 'whatsapp', 'instagram', 'email'].map(ch => (
               <button
                 key={ch}
                 onClick={() => setChannelFilter(ch)}
-                className={`px-2.5 py-1 rounded text-xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded text-xs font-medium transition-colors whitespace-nowrap ${
                   channelFilter === ch ? 'bg-blue-100 text-blue-700' : 'text-gray-500 hover:bg-gray-100'
                 }`}
               >
@@ -114,11 +114,20 @@ export default function ConversationsPage() {
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col bg-gray-50">
+      <div className={`${selectedConvo ? 'flex' : 'hidden md:flex'} flex-1 flex-col bg-gray-50`}>
         {selectedConvo ? (
           <>
             {/* Chat Header */}
-            <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center gap-3">
+            <div className="bg-white border-b border-gray-200 px-4 md:px-6 py-3 flex items-center gap-3">
+              {/* Back button on mobile */}
+              <button
+                onClick={() => setSelectedConvo(null)}
+                className="md:hidden text-gray-500 hover:text-gray-700 mr-1"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
               <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold ${getChannelColor(selectedConvo.channel)}`}>
                 {selectedConvo.contactName.split(' ').map(n => n[0]).join('')}
               </div>
@@ -132,10 +141,10 @@ export default function ConversationsPage() {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
               {selectedConvo.messages.map(msg => (
                 <div key={msg.id} className={`flex ${msg.sender === 'agent' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[70%] px-4 py-2.5 rounded-2xl text-sm ${
+                  <div className={`max-w-[85%] md:max-w-[70%] px-4 py-2.5 rounded-2xl text-sm ${
                     msg.sender === 'agent'
                       ? 'bg-blue-500 text-white rounded-br-md'
                       : 'bg-white text-gray-900 border border-gray-200 rounded-bl-md'
@@ -150,14 +159,14 @@ export default function ConversationsPage() {
             </div>
 
             {/* Message Input */}
-            <div className="bg-white border-t border-gray-200 px-6 py-4">
-              <div className="flex items-center gap-3">
+            <div className="bg-white border-t border-gray-200 px-4 md:px-6 py-3 md:py-4">
+              <div className="flex items-center gap-2 md:gap-3">
                 <input
                   type="text"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Escribe un mensaje..."
-                  className="flex-1 border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 border border-gray-200 rounded-lg px-3 md:px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && message.trim()) {
                       setMessage('')
